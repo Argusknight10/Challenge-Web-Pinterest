@@ -3,67 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENT Galerry</title>
+    <title>ENT Gallery</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .hero {
-            background-image: url('https://example.com/your-banner-image.jpg'); /* Replace with actual image */
+            background: url('https://statik.tempo.co/data/2019/06/22/id_850290/850290_720.jpg'); /* Update with your image */
             background-size: cover;
+            background-position: center;
             height: 60vh;
             display: flex;
             align-items: flex-end;
             color: white;
+            border-radius: 1.5rem;
         }
         .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 16px;
+            margin: 0 auto;
+        }
+        .gallery-item {
+            margin-bottom: 16px; /* Space between items */
         }
     </style>
 </head>
 <body class="bg-gray-100">
 
     <!-- Hero Banner -->
-    <div class="hero p-6">
+    <div class="hero p-10 mx-8 mt-8  relative"> <!-- Changed mx-8 to mx-4 for consistent margin -->
+        <img src="https://png.pngtree.com/png-vector/20211023/ourmid/pngtree-salon-logo-png-image_4004444.png" alt="Logo" class="absolute top-4 left-4 w-24"> <!-- Logo -->
         <div>
             <h1 class="text-4xl font-bold">Memperindah kegiatan dibayar dengan hasilnya</h1>
             <p class="mt-2">EEPIS Media Network</p>
         </div>
     </div>
 
+    <!-- Text Section -->
+    <div class="flex justify-between items-center p-8 mx-8"> <!-- Added mx-4 for consistent margin -->
+        <h2 class="text-2xl font-bold">Gallery</h2>
+        <p class="text-lg font-light">Discover beauty from your own perspective</p>
+    </div>
+
     <!-- Gallery Section -->
-    <div class="gallery p-4">
+    <div class="gallery p-4 mb-6 mx-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> <!-- Added mx-4 for consistent margin -->
         @for ($i = 0; $i < 9; $i++)
-            <div class="rounded-lg bg-white shadow-md">
-                <img src="https://via.placeholder.com/300x200?text=Image+{{ $i + 1 }}" alt="Image {{ $i + 1 }}" class="rounded-t-lg w-full h-auto">
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvPwuxBhcP25ZMoQ8MI6Ip-F6mDXlI8bDo2w&s" alt="Image {{ $i + 1 }}" class="rounded-lg w-full h-auto shadow-md">
+                <p>Judul</p>
             </div>
         @endfor
     </div>
-
-    <!-- Submit Form -->
-    <div class="flex p-4">
-        <div class="w-1/2 pr-4">
-            <h3 class="text-lg font-semibold">Preview Gambar</h3>
-            <img id="imagePreview" src="https://via.placeholder.com/300" alt="Preview" class="rounded-lg shadow-md w-full">
-        </div>
-        <div class="w-1/2">
-            <h3 class="text-lg font-semibold">Submit Gambar</h3>
-            <form action="#" method="POST" enctype="multipart/form-data" class="bg-white p-4 rounded-lg shadow-md">
-                @csrf
-                <input type="file" name="image" id="imageInput" accept="image/*" onchange="previewImage(event)" class="mb-4">
-                <input type="text" name="title" placeholder="Judul" required class="w-full p-2 border border-gray-300 rounded mb-4">
-                <textarea name="description" placeholder="Deskripsi" required class="w-full p-2 border border-gray-300 rounded mb-4"></textarea>
-                <button type="submit" class="bg-blue-500 text-white p-2 rounded">Submit</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function previewImage(event) {
-            const imagePreview = document.getElementById('imagePreview');
-            imagePreview.src = URL.createObjectURL(event.target.files[0]);
-        }
-    </script>
 
 </body>
 </html>
