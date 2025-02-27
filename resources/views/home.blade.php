@@ -62,9 +62,9 @@
     </div>
 
     <!-- Text Section -->
-    <div class="flex justify-between items-center p-8 mx-8">
-        <h2 class="text-2xl font-bold">Gallery</h2>
-        <p class="text-lg font-light">Discover beauty from your own perspective</p>
+    <div class="flex justify-between items-center p-8 mx-4">
+        <h2 class="text-2xl mx-2 font-bold">Gallery</h2>
+        <p class="text-lg mx-2 font-light">Discover beauty from your own perspective</p>
     </div>
 
     <!-- Gallery Section -->
