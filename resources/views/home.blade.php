@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>ENT Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -150,9 +151,33 @@
                     <button class="text-white px-2 pt-1 rounded-md" onclick="openEditModal('{{ $photo->id }}', '{{ $photo->title }}', '{{ $photo->description }}', '{{ asset('storage/' . $photo->image) }}')">
                         <box-icon name='edit-alt'></box-icon>
                     </button>
-                    <button class="text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
+                    {{-- <button class="text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
                         <box-icon name='trash'></box-icon>
-                    </button>
+                    </button> --}}
+                    <form action="{{ route('photos.destroy', $photo->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-white px-2 pt-1 rounded-md" onclick="return confirm('Anda yakin ingin menghapus foto ini?')">
+                            <box-icon name='trash'></box-icon>
+                        </button>
+                    </form>
+            
+
+                    {{-- <form action="{{ route('admin.articles.destroy', $article->slug) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            onclick="return confirm('Anda yakin ingin mengarsip artikel ini?')">
+                            <div class="bg-red-500 hover:bg-gray-400 p-2 rounded-lg w-fit">
+                                <svg class="w-5 h-5 text-gray-200 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                    <path stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"
+                                        d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                                </svg>
+                            </div>
+                        </button>
+                    </form> --}}
                 </div>
             </div>
             @empty
@@ -183,15 +208,24 @@
                     @csrf
                     <div class="lg:mb-4 my-4">
                         <label for="title" class="block text-sm font-medium text-gray-700">Judul</label>
-                        <input type="text" id="title" name="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required>
+                        <input type="text" id="title" name="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" value="{{ old('title') }}" required>
+                        @error('title')
+                            <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                        <textarea id="description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required></textarea>
+                        <textarea id="description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required>{{ old('description') }}</textarea>
+                        @error('description')
+                            <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="image" class="block text-sm font-medium text-gray-700">Pilih Foto</label>
                         <input type="file" id="image" name="image" accept="image/*" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewImage(event)" required>
+                        @error('image')
+                            <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
                 </form>
@@ -208,15 +242,24 @@
                 @method('PUT')
                 <div class="lg:mb-4 my-4">
                     <label for="editTitle" class="block text-sm font-medium text-gray-700">Judul</label>
-                    <input type="text" id="editTitle" name="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required>
+                    <input type="text" id="editTitle" name="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" value="{{ old('title', $photo->title) }}" required>
+                    @error('title')
+                        <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <label for="editDescription" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                    <textarea id="editDescription" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required></textarea>
+                    <textarea id="editDescription" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required>{{ old('description', $photo->description) }}</textarea>
+                    @error('description')
+                        <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <label for="editImage" class="block text-sm font-medium text-gray-700">Pilih Foto</label>
                     <input type="file" id="editImage" name="image" accept="image/*" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewEditImage(event)">
+                    @error('image')
+                        <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <img id="editImagePreview" src="" alt="Preview" class="w-full object-contain rounded hidden max-h-72 mb-4">
                 <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Update</button>
@@ -295,9 +338,35 @@
             reader.readAsDataURL(file);
         }
 
+        // function deletePhoto(photoId) {
+        //     if (confirm('Are you sure you want to delete this photo?')) {
+        //         alert('Photo with ID: ' + photoId + ' has been deleted.');
+        //     }
+        // }
+
         function deletePhoto(photoId) {
+            console.log('Deleting photo with ID:', photoId); // Tambahkan ini
             if (confirm('Are you sure you want to delete this photo?')) {
-                alert('Photo with ID: ' + photoId + ' has been deleted.');
+                fetch(`/photos/${photoId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    console.log('Response:', response); // Tambahkan ini
+                    if (response.ok) {
+                        alert('Photo has been deleted.');
+                        location.reload(); // Reload halaman untuk memperbarui tampilan
+                    } else {
+                        alert('Failed to delete photo.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the photo.');
+                });
             }
         }
 

@@ -17,7 +17,7 @@ use App\Http\Controllers\PhotoController;
 */
 
 Route::get('/', [HomeController::class, 'index']) ->name('home');
-Route::resource('photos', HomeController::class)->scoped(['photo' => 'slug'])->except([
+Route::resource('photos', HomeController::class)->scoped(['photo' => 'id'])->except([
     'index',
 ]);
 
