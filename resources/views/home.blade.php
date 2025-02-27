@@ -20,7 +20,7 @@
         }
         .gallery img {
             width: 100%;
-            border-radius: 0.5rem; 
+            border-radius: 1.5rem; 
             display: block;
             object-fit: cover; 
             cursor: pointer; 
@@ -123,26 +123,48 @@
             position: relative; 
             z-index: 2; 
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .pagination li {
+            margin: 0 0.5rem;
+        }
+
+        .pagination a {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border-radius: 0.25rem;
+            text-decoration: none;
+        }
+
+        .pagination .disabled {
+            background-color: #e0e0e0;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
 
     <x-navbar></x-navbar>
 
-    <div class="max-w-screen-lg mx-auto px-4 lg:px-8">
-        <div class="relative h-60 lg:h-96 bg-cover bg-center rounded-2xl flex items-end text-white p-10 hero">
-            <div>
-                <h1 class="text-2xl md:text-4xl font-bold">Memperindah kegiatan dibayar dengan hasilnya</h1>
-                <p class="mt-2">EEPIS Media Network</p>
+        <div class="max-w-screen-lg mx-auto px-4 lg:px-8">
+            <div class="relative h-60 lg:h-96 bg-cover bg-center rounded-2xl flex items-end text-white p-10 hero">
+                <div>
+                    <h1 class="text-2xl md:text-4xl font-bold">Memperindah Kegiatan Dibayar Dengan Hasilnya</h1>
+                    <p class="mt-2">EEPIS News And Network Team</p>
+                </div>
             </div>
-        </div>
 
-        <div class="flex flex-col md:flex-row justify-between items-center py-8">
-            <h2 class="text-2xl font-bold">Gallery</h2>
-            <p class="text-lg font-light text-center md:text-right">Discover beauty from your own perspective</p>
-        </div>
+            <div class="flex flex-col md:flex-row justify-between items-center py-8">
+                <h2 class="text-2xl font-bold">Gallery</h2>
+                <p class="text-lg font-light text-center md:text-right">Discover beauty from your own perspective</p>
+            </div>
 
-        <div class="gallery p-4 mb-6 mx-4">
+            <div class="gallery p-4 mb-6 mx-4">
             @forelse ($photos as $photo)
             <div class="gallery-item">
                 <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
@@ -183,13 +205,15 @@
             @empty
             <div class="col-span-full flex justify-center">
                 <div class="px-6 py-4 bg-gray-100 rounded-lg shadow-md dark:bg-gray-700 flex items-center">
-                    <svg viewBox="0 0 40 40" class="w-8 h-8 mr-3 fill-current text-gray-500">
-                        <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z"></path>
-                    </svg>
-                    <p class="text-lg text-gray-500 dark:text-gray-300"> Tidak ada artikel yang dipublikasikan</p>
+                    <p class="text-lg text-gray-500 dark:text-gray-300"> Tidak ada gambar yang dipublikasikan</p>
                 </div>
             </div>
             @endempty
+        </div>
+
+        <!-- Pagination Links -->
+        <div class="flex justify-center my-4 mx-4">
+            {{ $photos->links('vendor.pagination.bootstrap-4') }}
         </div>
 
         <hr>
