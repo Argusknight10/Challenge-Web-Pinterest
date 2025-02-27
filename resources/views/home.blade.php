@@ -34,8 +34,19 @@
             padding: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+        .gallery-item img {
+            transition: opacity 0.3s ease-in-out; /* Animasi perubahan transparansi */
+        }
+        .gallery-item:hover img {
+            opacity: 0.7; 
+        }
+
+        .gallery-item {
+            transition: opacity 0.3s ease-in-out;
+        }
         .gallery-item:hover .edit-delete-buttons {
-            display: block; 
+            display: block; /* Tampilkan tombol saat hover */
+            z-index: 2;
         }
         @media (min-width: 640px) { 
             .gallery {
@@ -102,9 +113,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); 
-            border-radius: 1.5rem; 
-            z-index: 1; 
+            background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan transparansi 50% */
+            border-radius: 1.2rem; /* Pastikan border-radius sama dengan .hero */
+            z-index: 1; /* Pastikan overlay berada di atas gambar */
+
         }
         .hero > div {
             position: relative; 
