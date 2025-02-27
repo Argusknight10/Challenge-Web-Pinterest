@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENT Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <style>
         .gallery {
             margin: 0 auto;
@@ -14,6 +17,7 @@
         .gallery-item {
             break-inside: avoid; 
             margin-bottom: 1rem; 
+            position: relative; /* Tambahkan posisi relatif untuk menampung tombol */
         }
         .gallery img {
             width: 100%;
@@ -21,6 +25,19 @@
             display: block;
             object-fit: cover; 
             cursor: pointer; /* Menambahkan cursor pointer */
+        }
+        .edit-delete-buttons {
+            display: none; /* Sembunyikan tombol secara default */
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .gallery-item:hover .edit-delete-buttons {
+            display: block; /* Tampilkan tombol saat hover */
         }
         @media (min-width: 640px) { 
             .gallery {
@@ -71,16 +88,15 @@
             cursor: pointer;
         }
         .hero {
-        position: relative; /* Tambahkan ini untuk mengatur posisi relatif */
-        background-image: url('storage/photos/IMG_9834.JPG');
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: flex-end;
-        color: white;
-        border-radius: 1.5rem;
+            position: relative; /* Tambahkan ini untuk mengatur posisi relatif */
+            background-image: url('storage/photos/IMG_9834.JPG');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            color: white;
+            border-radius: 1.5rem;
         }
-
         .hero::before {
             content: ""; /* Membuat pseudo-element */
             position: absolute; /* Posisi absolut untuk menutupi hero */
@@ -92,7 +108,6 @@
             border-radius: 1.5rem; /* Pastikan border-radius sama dengan .hero */
             z-index: 1; /* Pastikan overlay berada di atas gambar */
         }
-
         .hero > div {
             position: relative; /* Posisi relatif untuk konten di atas overlay */
             z-index: 2; /* Pastikan konten berada di atas overlay */
@@ -121,6 +136,14 @@
             <div class="gallery-item">
                 <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
                 <p class="text-center mt-2">{{ $photo->title }}</p>
+                <div class="edit-delete-buttons">
+                    <button class="bg-blue-500 text-white px-2 pt-1 rounded-md" onclick="editPhoto('{{ $photo->id }}')">
+                        <box-icon name='edit-alt'></box-icon>
+                    </button>
+                    <button class="bg-red-500 text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
+                        <box-icon name='trash'></box-icon>
+                    </button>
+                </div>
             </div>
             @empty
             <div class="col-span-full flex justify-center">
@@ -160,7 +183,7 @@
                         <label for="image" class="block text-sm font-medium text-gray-700">Pilih Foto</label>
                         <input type="file" id="image" name="image" accept="image/*" class="mt-1 block w-full  border border-gray-300  rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewImage(event)" required>
                     </div>
-                    <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
+                    <button type=" submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
                 </form>
             </div>
         </div>
@@ -206,12 +229,27 @@
             document.getElementById('myModal').style.display = "none";
         }
 
+        function editPhoto(photoId) {
+            // Implement edit functionality here
+            alert('Edit photo with ID: ' + photoId);
+        }
+
+        function deletePhoto(photoId) {
+            // Implement delete functionality here
+            if (confirm('Are you sure you want to delete this photo?')) {
+                // Proceed with deletion
+                alert('Photo with ID: ' + photoId + ' has been deleted.');
+            }
+        }
+
         window.onclick = function(event) {
             if (event.target == document.getElementById('myModal')) {
                 closeModal();
             }
         }
     </script>
+
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
 </body>
 </html>
