@@ -68,7 +68,7 @@
     <div class="gallery p-4 mb-6 mx-4">
         @forelse ($photos as $photos)
         <div class="gallery-item">
-            <img src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
+            <img class="border" src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
             <p class="text-center">{{ $photos->title }}</p>
         </div>
         @empty
