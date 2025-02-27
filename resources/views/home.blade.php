@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENT Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
     <style>
         .gallery {
             margin: 0 auto;
@@ -137,7 +135,7 @@
                 <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
                 <p class="text-center mt-2">{{ $photo->title }}</p>
                 <div class="edit-delete-buttons">
-                    <button class="bg-blue-500 text-white px-2 pt-1 rounded-md" onclick="editPhoto('{{ $photo->id }}')">
+                    <button class="bg-blue-500 text-white px-2 pt-1 rounded-md" onclick="openEditModal('{{ $photo->id }}', '{{ $photo->title }}', '{{ $photo->description }}', '{{ asset('storage/' . $photo->image) }}')">
                         <box-icon name='edit-alt'></box-icon>
                     </button>
                     <button class="bg-red-500 text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
@@ -181,24 +179,35 @@
                     </div>
                     <div class="mb-4">
                         <label for="image" class="block text-sm font-medium text-gray-700">Pilih Foto</label>
-                        <input type="file" id="image" name="image" accept="image/*" class="mt-1 block w-full  border border-gray-300  rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewImage(event)" required>
+                        <input type="file" id="image" name="image" accept="image/*" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewImage(event)" required>
                     </div>
-                    <button type=" submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
+                    <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="myModal" class="modal">
+    <div id="editModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div class="flex">
-                <img id="modalImage" src="" alt="" class="w-1/2 rounded">
-                <div class="ml-4">
-                    <h2 id="modalTitle" class="text-xl font-bold"></h2>
-                    <p id="modalDescription" class="mt-2"></p>
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <form id="editForm" action="{{ route('photos.update', 'photoId') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="lg:mb-4 my-4">
+                    <label for="editTitle" class="block text-sm font-medium text-gray -700">Judul</label>
+                    <input type="text" id="editTitle" name="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required>
                 </div>
-            </div>
+                <div class="mb-4">
+                    <label for="editDescription" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                    <textarea id="editDescription" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="editImage" class="block text-sm font-medium text-gray-700">Pilih Foto</label>
+                    <input type="file" id="editImage" name="image" accept="image/*" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewEditImage(event)">
+                </div>
+                <img id="editImagePreview" src="" alt="Preview" class="w-full object-contain rounded hidden max-h-72 mb-4">
+                <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Update</button>
+            </form>
         </div>
     </div>
 
@@ -229,15 +238,31 @@
             document.getElementById('myModal').style.display = "none";
         }
 
-        function editPhoto(photoId) {
-            // Implement edit functionality here
-            alert('Edit photo with ID: ' + photoId);
+        function openEditModal(photoId, title, description, imageSrc) {
+            document.getElementById('editTitle').value = title;
+            document.getElementById('editDescription').value = description;
+            document.getElementById('editImagePreview').src = imageSrc; // Set preview image
+            document.getElementById('editForm').action = "{{ route('photos.update', '') }}" + '/' + photoId;
+            document.getElementById('editModal').style.display = "block";
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = "none";
+        }
+
+        function previewEditImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('editImagePreview');
+                img.src = e.target.result; // Update preview image
+                img.classList.remove('hidden');
+            }
+            reader.readAsDataURL(file);
         }
 
         function deletePhoto(photoId) {
-            // Implement delete functionality here
             if (confirm('Are you sure you want to delete this photo?')) {
-                // Proceed with deletion
                 alert('Photo with ID: ' + photoId + ' has been deleted.');
             }
         }
@@ -245,6 +270,8 @@
         window.onclick = function(event) {
             if (event.target == document.getElementById('myModal')) {
                 closeModal();
+            } else if (event.target == document.getElementById('editModal')) {
+                closeEditModal();
             }
         }
     </script>
