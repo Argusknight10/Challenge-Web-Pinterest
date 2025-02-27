@@ -43,25 +43,28 @@
         <hr>
 
         <h3 class="text-2xl py-6 font-bold">Upload Foto</h3>
-        <div class="flex flex-col md:flex-row bg-white rounded-lg shadow-2xl mb-8 p-8">
-            <div class="md:w-1/2 pr-4">
+        <div class="flex flex-col md:flex-row bg-white rounded-lg shadow-2xl mb-8 p-8" id="upload">
+            <div class="md:w-1/2 lg:pr-4">
                 <h3 class="text-xl font-bold mb-2">Preview Gambar</h3>
+                <div id="imagePlaceholder" class="w-full h-72 bg-gray-200 rounded flex items-center justify-center text-gray-500">
+                    Tidak ada gambar yang dipilih
+                </div>
                 <img id="imagePreview" src="" alt="Preview" class="w-full object-contain rounded hidden max-h-72">
             </div>
-            <div class="md:w-1/2 pl-4">
+            <div class="md:w-1/2 lg:pl-4">
                 <form action="{{ route('photos.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="mb-4">
+                    <div class="lg:mb-4 my-4">
                         <label for="title" class="block text-sm font-medium text-gray-700">Judul</label>
-                        <input type="text" id="title" name="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" required>
+                        <input type="text" id="title" name="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required>
                     </div>
                     <div class="mb-4">
                         <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                        <textarea id="description" name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" required></textarea>
+                        <textarea id="description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required></textarea>
                     </div>
                     <div class="mb-4">
                         <label for="image" class="block text-sm font-medium text-gray-700">Pilih Foto</label>
-                        <input type="file" id="image" name="image" accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewImage(event)" required>
+                        <input type="file" id="image" name="image" accept="image/*" class="mt-1 block w-full  border border-gray-300  rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewImage(event)" required>
                     </div>
                     <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
                 </form>
@@ -77,11 +80,14 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = document.getElementById('imagePreview');
+                const placeholder = document.getElementById('imagePlaceholder');
                 img.src = e.target.result;
                 img.classList.remove('hidden');
+                placeholder.style.display = 'none'; 
             }
             reader.readAsDataURL(file);
         }
     </script>
+
 </body>
 </html>
