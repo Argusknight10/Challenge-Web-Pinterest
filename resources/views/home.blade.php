@@ -214,6 +214,13 @@
     <x-footer></x-footer>
 
     <script>
+        function smoothScroll(event) {
+            event.preventDefault();
+            const targetId = event.currentTarget.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+        
         function previewImage(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
