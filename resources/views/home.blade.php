@@ -79,11 +79,11 @@
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
-            padding: 20px;
+            padding: 30px;
             border: 1px solid #888;
-            width: 80%;
-            max-width: 600px; 
-            border-radius: 8px; 
+            width: 100%;
+            max-width: 800px; 
+            border-radius: 12px; 
         }
         .close {
             color: #aaa;
