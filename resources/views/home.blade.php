@@ -39,12 +39,39 @@
                 column-count: 4; 
             }
         }
+        .hero {
+        position: relative; /* Tambahkan ini untuk mengatur posisi relatif */
+        background-image: url('storage/photos/IMG_9834.JPG');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+        color: white;
+        border-radius: 1.5rem;
+        }
+
+        .hero::before {
+            content: ""; /* Membuat pseudo-element */
+            position: absolute; /* Posisi absolut untuk menutupi hero */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan transparansi 50% */
+            border-radius: 1.5rem; /* Pastikan border-radius sama dengan .hero */
+            z-index: 1; /* Pastikan overlay berada di atas gambar */
+        }
+
+        .hero > div {
+            position: relative; /* Posisi relatif untuk konten di atas overlay */
+            z-index: 2; /* Pastikan konten berada di atas overlay */
+        }
     </style>
 
     <x-navbar></x-navbar>
 
     <div class="max-w-screen-lg mx-auto px-4 lg:px-8">
-        <div class="relative h-60 lg:h-96 bg-cover bg-center rounded-2xl flex items-end text-white p-10" style="background-image: url('https://statik.tempo.co/data/2019/06/22/id_850290/850290_720.jpg');">
+        <div class="relative h-60 lg:h-96 bg-cover bg-center rounded-2xl flex items-end text-white p-10 hero">
             <div>
                 <h1 class="text-2xl md:text-4xl font-bold">Memperindah kegiatan dibayar dengan hasilnya</h1>
                 <p class="mt-2">EEPIS Media Network</p>
