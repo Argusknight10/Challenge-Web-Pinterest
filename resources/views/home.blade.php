@@ -6,7 +6,41 @@
     <title>ENT Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="">
+<body>
+
+    <style>
+        .gallery {
+            margin: 0 auto;
+            column-count: 2; 
+            column-gap: 1rem; 
+        }
+        .gallery-item {
+            break-inside: avoid; 
+            margin-bottom: 1rem; 
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 0.5rem; 
+            display: block;
+            object-fit: cover; 
+        }
+        @media (min-width: 640px) { 
+            .gallery {
+                column-count: 2; 
+            }
+        }
+        @media (min-width: 700px) { 
+            .gallery {
+                column-count: 3; 
+            }
+        }
+        @media (min-width: 1024px) { 
+            .gallery {
+                column-count: 4; 
+            }
+        }
+    </style>
+
     <x-navbar></x-navbar>
 
     <div class="max-w-screen-lg mx-auto px-4 lg:px-8">
@@ -22,10 +56,10 @@
             <p class="text-lg font-light text-center md:text-right">Discover beauty from your own perspective</p>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+        <div class="gallery p-4 mb-6 mx-4">
             @forelse ($photos as $photos)
-            <div>
-                <img class="w-full h-48 object-cover rounded-lg border" src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
+            <div class="gallery-item">
+                <img class="w-full object-cover rounded-lg border" src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
                 <p class="text-center mt-2">{{ $photos->title }}</p>
             </div>
             @empty
