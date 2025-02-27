@@ -15,17 +15,17 @@
         .gallery-item {
             break-inside: avoid; 
             margin-bottom: 1rem; 
-            position: relative; /* Tambahkan posisi relatif untuk menampung tombol */
+            position: relative; 
         }
         .gallery img {
             width: 100%;
             border-radius: 0.5rem; 
             display: block;
             object-fit: cover; 
-            cursor: pointer; /* Menambahkan cursor pointer */
+            cursor: pointer; 
         }
         .edit-delete-buttons {
-            display: none; /* Sembunyikan tombol secara default */
+            display: none; 
             position: absolute;
             top: 10px;
             right: 10px;
@@ -35,7 +35,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         .gallery-item:hover .edit-delete-buttons {
-            display: block; /* Tampilkan tombol saat hover */
+            display: block; 
         }
         @media (min-width: 640px) { 
             .gallery {
@@ -54,7 +54,7 @@
         }
         /* Modal Styles */
         .modal {
-            display: none; /* Sembunyikan modal secara default */
+            display: none; 
             position: fixed;
             z-index: 50;
             left: 0;
@@ -62,7 +62,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7); /* Latar belakang gelap */
+            background-color: rgba(0, 0, 0, 0.7); 
         }
         .modal-content {
             background-color: #fefefe;
@@ -70,8 +70,8 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            max-width: 600px; /* Lebar maksimum modal */
-            border-radius: 8px; /* Sudut membulat */
+            max-width: 600px; 
+            border-radius: 8px; 
         }
         .close {
             color: #aaa;
@@ -86,7 +86,7 @@
             cursor: pointer;
         }
         .hero {
-            position: relative; /* Tambahkan ini untuk mengatur posisi relatif */
+            position: relative; 
             background-image: url('storage/photos/IMG_9834.JPG');
             background-size: cover;
             background-position: center;
@@ -96,19 +96,19 @@
             border-radius: 1.5rem;
         }
         .hero::before {
-            content: ""; /* Membuat pseudo-element */
-            position: absolute; /* Posisi absolut untuk menutupi hero */
+            content: ""; 
+            position: absolute; 
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan transparansi 50% */
-            border-radius: 1.5rem; /* Pastikan border-radius sama dengan .hero */
-            z-index: 1; /* Pastikan overlay berada di atas gambar */
+            background-color: rgba(0, 0, 0, 0.5); 
+            border-radius: 1.5rem; 
+            z-index: 1; 
         }
         .hero > div {
-            position: relative; /* Posisi relatif untuk konten di atas overlay */
-            z-index: 2; /* Pastikan konten berada di atas overlay */
+            position: relative; 
+            z-index: 2; 
         }
     </style>
 </head>
@@ -135,10 +135,10 @@
                 <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
                 <p class="text-center mt-2">{{ $photo->title }}</p>
                 <div class="edit-delete-buttons">
-                    <button class="bg-blue-500 text-white px-2 pt-1 rounded-md" onclick="openEditModal('{{ $photo->id }}', '{{ $photo->title }}', '{{ $photo->description }}', '{{ asset('storage/' . $photo->image) }}')">
+                    <button class="text-white px-2 pt-1 rounded-md" onclick="openEditModal('{{ $photo->id }}', '{{ $photo->title }}', '{{ $photo->description }}', '{{ asset('storage/' . $photo->image) }}')">
                         <box-icon name='edit-alt'></box-icon>
                     </button>
-                    <button class="bg-red-500 text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
+                    <button class="text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
                         <box-icon name='trash'></box-icon>
                     </button>
                 </div>
@@ -187,6 +187,7 @@
         </div>
     </div>
 
+    <!-- Modal untuk Edit -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()">&times;</span>
@@ -194,7 +195,7 @@
                 @csrf
                 @method('PUT')
                 <div class="lg:mb-4 my-4">
-                    <label for="editTitle" class="block text-sm font-medium text-gray -700">Judul</label>
+                    <label for="editTitle" class="block text-sm font-medium text-gray-700">Judul</label>
                     <input type="text" id="editTitle" name="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 p-2" required>
                 </div>
                 <div class="mb-4">
@@ -208,6 +209,20 @@
                 <img id="editImagePreview" src="" alt="Preview" class="w-full object-contain rounded hidden max-h-72 mb-4">
                 <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Update</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal untuk Gambar -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="flex">
+                <img id="modalImage" src="" alt="" class="w-1/2 rounded">
+                <div class="ml-4">
+                    <h2 id="modalTitle" class="text-xl font-bold"></h2>
+                    <p id="modalDescription" class="mt-2"></p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -248,7 +263,7 @@
         function openEditModal(photoId, title, description, imageSrc) {
             document.getElementById('editTitle').value = title;
             document.getElementById('editDescription').value = description;
-            document.getElementById('editImagePreview').src = imageSrc; // Set preview image
+            document.getElementById('editImagePreview').src = imageSrc; 
             document.getElementById('editForm').action = "{{ route('photos.update', '') }}" + '/' + photoId;
             document.getElementById('editModal').style.display = "block";
         }
@@ -262,7 +277,7 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = document.getElementById('editImagePreview');
-                img.src = e.target.result; // Update preview image
+                img.src = e.target.result; 
                 img.classList.remove('hidden');
             }
             reader.readAsDataURL(file);
