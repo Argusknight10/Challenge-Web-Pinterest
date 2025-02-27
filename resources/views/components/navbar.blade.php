@@ -12,7 +12,7 @@
             <div class="flex items-center">
                 <!-- Navigation Links -->
                 <a href="{{ url('/') }}" class="text-gray-700 hover:text-gray-900 mx-2 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                <a href="#upload" class="bg-custom-blue text-white hover:bg-blue-600 mx-2 px-3 py-2 rounded-md text-sm font-medium">Upload Photo</a> <!-- Updated Upload button -->
+                <a href="#upload" class="bg-custom-blue text-white hover:bg-blue-600 mx-2 px-3 py-2 rounded-md text-sm font-medium" onclick="smoothScroll(event)">Upload Photo</a> <!-- Updated Upload button -->
             </div>
         </div>
     </div>
