@@ -21,12 +21,20 @@
             <h2 class="text-2xl font-bold">Gallery</h2>
             <p class="text-lg font-light text-center md:text-right">Discover beauty from your own perspective</p>
         </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-            @forelse ($photos as $photos)
-            <div>
-                <img class="w-full object-cover rounded-lg border" src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
-                <p class="text-center mt-2">{{ $photos->title }}</p>
+        
+        <div class="gallery p-4 mb-6 mx-4">
+            @forelse ($photos as $photo)
+            <div class="gallery-item">
+                <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
+                <p class="text-center mt-2">{{ $photo->title }}</p>
+                <div class="edit-delete-buttons">
+                    <button class="bg-blue-500 text-white px-2 pt-1 rounded-md" onclick="openEditModal('{{ $photo->id }}', '{{ $photo->title }}', '{{ $photo->description }}', '{{ asset('storage/' . $photo->image) }}')">
+                        <box-icon name='edit-alt'></box-icon>
+                    </button>
+                    <button class="bg-red-500 text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
+                        <box-icon name='trash'></box-icon>
+                    </button>
+                </div>
             </div>
             @empty
             <div class="col-span-full flex justify-center">

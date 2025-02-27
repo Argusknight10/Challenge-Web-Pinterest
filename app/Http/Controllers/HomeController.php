@@ -14,7 +14,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $photos = Photo::query()
-            ->select('id', 'slug', 'title', 'created_at', 'image')
+            ->select('id', 'slug', 'title', 'description','created_at', 'image')
             ->latest();
 
         if ($request->query('q')) {
