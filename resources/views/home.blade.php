@@ -165,61 +165,41 @@
             </div>
 
             <div class="gallery p-4 mb-6 mx-4">
-            @forelse ($photos as $photo)
-            <div class="gallery-item">
-                <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
-                <p class="text-center mt-2">{{ $photo->title }}</p>
-                <div class="edit-delete-buttons">
-                    <button class="text-white px-2 pt-1 rounded-md" onclick="openEditModal('{{ $photo->id }}', '{{ $photo->title }}', '{{ $photo->description }}', '{{ asset('storage/' . $photo->image) }}')">
-                        <box-icon name='edit-alt'></box-icon>
-                    </button>
-                    {{-- <button class="text-white px-2 pt-1 rounded-md" onclick="deletePhoto('{{ $photo->id }}')">
-                        <box-icon name='trash'></box-icon>
-                    </button> --}}
-                    <form action="{{ route('photos.destroy', $photo->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-white px-2 pt-1 rounded-md" onclick="return confirm('Anda yakin ingin menghapus foto ini?')">
-                            <box-icon name='trash'></box-icon>
+                @forelse ($photos as $photo)
+                <div class="gallery-item">
+                    <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
+                    <p class="text-center mt-2">{{ $photo->title }}</p>
+                    <div class="edit-delete-buttons">
+                        <button class="text-white px-2 pt-1 rounded-md" onclick="openEditModal('{{ $photo->id }}', '{{ $photo->title }}', '{{ $photo->description }}', '{{ asset('storage/' . $photo->image) }}')">
+                            <box-icon name='edit-alt'></box-icon>
                         </button>
-                    </form>
-            
-
-                    {{-- <form action="{{ route('admin.articles.destroy', $article->slug) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            onclick="return confirm('Anda yakin ingin mengarsip artikel ini?')">
-                            <div class="bg-red-500 hover:bg-gray-400 p-2 rounded-lg w-fit">
-                                <svg class="w-5 h-5 text-gray-200 dark:text-white" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                                    <path stroke="currentColor" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2"
-                                        d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
-                                </svg>
-                            </div>
-                        </button>
-                    </form> --}}
+                        <form action="{{ route('photos.destroy', $photo->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-white px-2 pt-1 rounded-md" onclick="return confirm('Anda yakin ingin menghapus foto ini?')">
+                                <box-icon name='trash'></box-icon>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            @empty
-            <div class="col-span-full flex justify-center">
-                <div class="px-6 py-4 bg-gray-100 rounded-lg shadow-md dark:bg-gray-700 flex items-center">
-                    <p class="text-lg text-gray-500 dark:text-gray-300"> Tidak ada gambar yang dipublikasikan</p>
+                @empty
+                <div class="col-span-full flex justify-center">
+                    <div class="px-6 py-4 bg-gray-100 rounded-lg shadow-md dark:bg-gray-700 flex items-center">
+                        <p class="text-lg text-gray-500 dark:text-gray-300"> Tidak ada gambar yang dipublikasikan</p>
+                    </div>
                 </div>
+                @endempty
             </div>
-            @endempty
-        </div>
 
         <!-- Pagination Links -->
-        <div class="flex justify-center my-4 mx-4">
+        <div class="w-full flex justify-center mt-8 mb-16 mx-4">
             {{ $photos->links('vendor.pagination.bootstrap-4') }}
         </div>
 
         <hr>
 
         <h3 class="text-2xl py-6 font-bold">Upload Foto</h3>
-        <div class="flex flex-col md:flex-row bg-white rounded-lg shadow-2xl mb-8 p-8" id="upload">
+        <div class="flex flex-col md:flex-row bg-white rounded-lg shadow-2xl mb-10 p-8" id="upload">
             <div class="md:w-1/2 lg:pr-4">
                 <h3 class="text-xl font-bold mb-2">Preview Gambar</h3>
                 <div id="imagePlaceholder" class="w-full h-72 bg-gray-200 rounded flex items-center justify-center text-gray-500">
@@ -251,7 +231,7 @@
                             <span class="w-full text-sm text-red-600">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
+                    <button type="submit" class="mt-2 w-full text-white py-2 rounded-md hover:bg-blue-600" style=" background-color: #3B70AD;">Submit</button>
                 </form>
             </div>
         </div>
@@ -360,38 +340,6 @@
                 img.classList.remove('hidden');
             }
             reader.readAsDataURL(file);
-        }
-
-        // function deletePhoto(photoId) {
-        //     if (confirm('Are you sure you want to delete this photo?')) {
-        //         alert('Photo with ID: ' + photoId + ' has been deleted.');
-        //     }
-        // }
-
-        function deletePhoto(photoId) {
-            console.log('Deleting photo with ID:', photoId); // Tambahkan ini
-            if (confirm('Are you sure you want to delete this photo?')) {
-                fetch(`/photos/${photoId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(response => {
-                    console.log('Response:', response); // Tambahkan ini
-                    if (response.ok) {
-                        alert('Photo has been deleted.');
-                        location.reload(); // Reload halaman untuk memperbarui tampilan
-                    } else {
-                        alert('Failed to delete photo.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while deleting the photo.');
-                });
-            }
         }
 
         window.onclick = function(event) {
