@@ -122,26 +122,48 @@
             position: relative; 
             z-index: 2; 
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .pagination li {
+            margin: 0 0.5rem;
+        }
+
+        .pagination a {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border-radius: 0.25rem;
+            text-decoration: none;
+        }
+
+        .pagination .disabled {
+            background-color: #e0e0e0;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
 
     <x-navbar></x-navbar>
 
-    <div class="max-w-screen-lg mx-auto px-4 lg:px-8">
-        <div class="relative h-60 lg:h-96 bg-cover bg-center rounded-2xl flex items-end text-white p-10 hero">
-            <div>
-                <h1 class="text-2xl md:text-4xl font-bold">Memperindah kegiatan dibayar dengan hasilnya</h1>
-                <p class="mt-2">EEPIS Media Network</p>
+        <div class="max-w-screen-lg mx-auto px-4 lg:px-8">
+            <div class="relative h-60 lg:h-96 bg-cover bg-center rounded-2xl flex items-end text-white p-10 hero">
+                <div>
+                    <h1 class="text-2xl md:text-4xl font-bold">Memperindah kegiatan dibayar dengan hasilnya</h1>
+                    <p class="mt-2">EEPIS Media Network</p>
+                </div>
             </div>
-        </div>
 
-        <div class="flex flex-col md:flex-row justify-between items-center py-8">
-            <h2 class="text-2xl font-bold">Gallery</h2>
-            <p class="text-lg font-light text-center md:text-right">Discover beauty from your own perspective</p>
-        </div>
+            <div class="flex flex-col md:flex-row justify-between items-center py-8">
+                <h2 class="text-2xl font-bold">Gallery</h2>
+                <p class="text-lg font-light text-center md:text-right">Discover beauty from your own perspective</p>
+            </div>
 
-        <div class="gallery p-4 mb-6 mx-4">
+            <div class="gallery p-4 mb-6 mx-4">
             @forelse ($photos as $photo)
             <div class="gallery-item">
                 <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
@@ -162,6 +184,11 @@
                 </div>
             </div>
             @endempty
+        </div>
+
+        <!-- Pagination Links -->
+        <div class="flex justify-center my-4 mx-4">
+            {{ $photos->links('vendor.pagination.bootstrap-4') }}
         </div>
 
         <hr>
