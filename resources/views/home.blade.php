@@ -19,7 +19,7 @@
         }
         .gallery img {
             width: 100%;
-            border-radius: 0.5rem; 
+            border-radius: 1.5rem; 
             display: block;
             object-fit: cover; 
             cursor: pointer; 
@@ -153,8 +153,8 @@
         <div class="max-w-screen-lg mx-auto px-4 lg:px-8">
             <div class="relative h-60 lg:h-96 bg-cover bg-center rounded-2xl flex items-end text-white p-10 hero">
                 <div>
-                    <h1 class="text-2xl md:text-4xl font-bold">Memperindah kegiatan dibayar dengan hasilnya</h1>
-                    <p class="mt-2">EEPIS Media Network</p>
+                    <h1 class="text-2xl md:text-4xl font-bold">Memperindah Kegiatan Dibayar Dengan Hasilnya</h1>
+                    <p class="mt-2">EEPIS News And Network Team</p>
                 </div>
             </div>
 
