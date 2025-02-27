@@ -25,7 +25,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
             @forelse ($photos as $photos)
             <div>
-                <img class="w-full h-48 object-cover rounded-lg border" src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
+                <img class="w-full object-cover rounded-lg border" src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
                 <p class="text-center mt-2">{{ $photos->title }}</p>
             </div>
             @empty
@@ -54,14 +54,23 @@
                     <div class="mb-4">
                         <label for="title" class="block text-sm font-medium text-gray-700">Judul</label>
                         <input type="text" id="title" name="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" required>
+                        @error('title')
+                            <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi</label>
                         <textarea id="description" name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" required></textarea>
+                        @error('description')
+                            <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="image" class="block text-sm font-medium text-gray-700">Pilih Foto</label>
                         <input type="file" id="image" name="image" accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" onchange="previewImage(event)" required>
+                        @error('image')
+                            <span class="w-full text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <button type="submit" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Submit</button>
                 </form>
