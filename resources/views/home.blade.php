@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENT Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-
     <style>
         .gallery {
             margin: 0 auto;
@@ -23,6 +20,7 @@
             border-radius: 0.5rem; 
             display: block;
             object-fit: cover; 
+            cursor: pointer; /* Menambahkan cursor pointer */
         }
         @media (min-width: 640px) { 
             .gallery {
@@ -38,6 +36,39 @@
             .gallery {
                 column-count: 4; 
             }
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; /* Sembunyikan modal secara default */
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7); /* Latar belakang gelap */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px; /* Lebar maksimum modal */
+            border-radius: 8px; /* Sudut membulat */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
         .hero {
         position: relative; /* Tambahkan ini untuk mengatur posisi relatif */
@@ -67,6 +98,8 @@
             z-index: 2; /* Pastikan konten berada di atas overlay */
         }
     </style>
+</head>
+<body>
 
     <x-navbar></x-navbar>
 
@@ -84,10 +117,10 @@
         </div>
 
         <div class="gallery p-4 mb-6 mx-4">
-            @forelse ($photos as $photos)
+            @forelse ($photos as $photo)
             <div class="gallery-item">
-                <img class="w-full object-cover rounded-lg border" src="{{ asset('storage/' . $photos->image) }}" alt="{{ $photos->slug }}">
-                <p class="text-center mt-2">{{ $photos->title }}</p>
+                <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->slug }}" onclick="openModal('{{ asset('storage/' . $photo->image) }}', '{{ $photo->title }}', '{{ $photo->description }}')">
+                <p class="text-center mt-2">{{ $photo->title }}</p>
             </div>
             @empty
             <div class="col-span-full flex justify-center">
@@ -95,7 +128,7 @@
                     <svg viewBox="0 0 40 40" class="w-8 h-8 mr-3 fill-current text-gray-500">
                         <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z"></path>
                     </svg>
-                    <p class="text-lg text-gray-500 dark:text-gray-300">Tidak ada artikel yang dipublikasikan</p>
+                    <p class="text-lg text-gray-500 dark:text-gray-300"> Tidak ada artikel yang dipublikasikan</p>
                 </div>
             </div>
             @endempty
@@ -133,6 +166,19 @@
         </div>
     </div>
 
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="flex">
+                <img id="modalImage" src="" alt="" class="w-1/2 rounded">
+                <div class="ml-4">
+                    <h2 id="modalTitle" class="text-xl font-bold"></h2>
+                    <p id="modalDescription" class="mt-2"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <x-footer></x-footer>
 
     <script>
@@ -147,6 +193,23 @@
                 placeholder.style.display = 'none'; 
             }
             reader.readAsDataURL(file);
+        }
+
+        function openModal(imageSrc, title, description) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('myModal').style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('myModal')) {
+                closeModal();
+            }
         }
     </script>
 
