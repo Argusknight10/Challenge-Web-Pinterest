@@ -1,11 +1,11 @@
-<nav class="bg-white shadow sticky top-0 z-10">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+<nav class="bg-white sticky top-0 z-10">
+    <div class="max-w-screen-lg mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
+            <div class="flex items-center">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="{{ url('/') }}">
-                        <img src="https://taplink.st/a/7/7/3/5/51cde8.svg?4" alt="Logo" class="h-14 w-14">
+                        <img src="https://taplink.st/a/7/7/3/5/51cde8.svg?4" alt="Logo" class="h-16 w-16">
                     </a>
                 </div>
             </div>
