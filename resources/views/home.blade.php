@@ -6,6 +6,7 @@
     <title>ENT Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="https://taplink.st/a/7/7/3/5/51cde8.svg?4gir" type="image/x-icon">
     <style>
         .gallery {
             margin: 0 auto;
