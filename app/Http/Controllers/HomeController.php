@@ -22,7 +22,7 @@ class HomeController extends Controller
         }
 
         return view('home', [
-            'photos' => $photos->paginate(10)->appends($request->query())
+            'photos' => $photos->paginate(20)->appends($request->query())
         ]);
     }
 

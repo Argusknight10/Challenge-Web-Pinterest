@@ -199,7 +199,7 @@
         <hr>
 
         <h3 class="text-2xl py-6 font-bold">Upload Foto</h3>
-        <div class="flex flex-col md:flex-row bg-white rounded-lg shadow-2xl mb-10 p-8" id="upload">
+        <div class="flex flex-col md:flex-row bg-white rounded-lg mb-14 mt-6" id="upload">
             <div class="md:w-1/2 lg:pr-4">
                 <h3 class="text-xl font-bold mb-2">Preview Gambar</h3>
                 <div id="imagePlaceholder" class="w-full h-72 bg-gray-200 rounded flex items-center justify-center text-gray-500">
@@ -271,7 +271,7 @@
         </div>
     </div>
 
-    <!-- Modal untuk Gambar -->
+    <!-- Modal untuk Show -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
